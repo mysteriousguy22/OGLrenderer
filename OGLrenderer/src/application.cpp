@@ -85,6 +85,11 @@ static unsigned int CreateShader(const std::string& vertexShader, const std::str
     return program;
 }
 
+static void FramebufferSizeCallback(GLFWwindow *window, int width, int height)
+{
+    glViewport(0, 0, width, height);
+}
+
 int main(void)
 {
     GLFWwindow* window;
@@ -101,9 +106,13 @@ int main(void)
     window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
     if (!window)
     {
+        std::cout << "Failed to create a GLFW window" << std::endl;
+
         glfwTerminate();
         return -1;
     }
+
+    glfwSetFramebufferSizeCallback(window, FramebufferSizeCallback);
 
     /* Make the window's context current */
     glfwMakeContextCurrent(window);
